@@ -1,8 +1,12 @@
+# catherine Beta v0.1
+# built with ❤ by fotiecodes
 from gtts import gTTS
 import playsound
+import wikipedia
 import speech_recognition as sr
 from datetime import datetime
 now = datetime.now()  # current date and time
+
 
 # function that speaks with gTTS
 
@@ -30,10 +34,8 @@ def date():
 
 def wishMe():
     # function that greets me
-    speak("Welcome back Fotier.")
-    time()
-    date()
-    hour = int(now.strftime("%H"))  # parse to int so i con use it later
+    speak("Welcome back sir.")
+    hour = int(now.strftime("%H"))  # parse to int so i can use it later
     if hour >= 6 and hour <= 12:
         speak("Good morning")
     elif hour >= 12 and hour <= 18:
@@ -54,12 +56,34 @@ def takeCommand():
     try:
         print("Recognizing...")
         # converting to txt using recognize_google
-        query = r.recognize_google(audio)
-        print(query)
+        said = r.recognize_google(audio)
+        print(said)
     except Exception as e:
         print(e)
-        speak("Say that again please.")
+        speak("Say that again please...")
+        return "none"  # return None is there was an error
+    return said  # return the said word in text
 
 
-wishMe()
-takeCommand()
+if __name__ == "__main__":
+    wishMe()
+
+    while True:
+        # taking the command from Microphone making it lower case
+        query = takeCommand().lower()
+        print(query)
+
+        if "time" in query:
+            time()
+        elif "date" in query:
+            date()
+        elif "offline" in query:
+            print("Bye!")
+            quit()
+        elif "wikipedia" in query:
+            speak("Searching...")
+            query = query.replace("wikipedia", "")
+            result = wikipedia.summary(query, sentences=2)
+            speak(result)
+        else:
+            speak("Sorry i don't understand")
