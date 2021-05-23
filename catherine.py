@@ -8,9 +8,6 @@ from datetime import datetime
 now = datetime.now()  # current date and time
 
 
-# function that speaks with gTTS
-
-
 def speak(text):
     # function that speaks out using gTTS
     print(text)
@@ -45,9 +42,9 @@ def wishMe():
 
 
 def takeCommand():
-    speak("Catherine at your service. How can i help you?")
     r = sr.Recognizer()
     with sr.Microphone() as source:
+        playsound.playsound("listerning.mp3")
         # ambient noise suppression/adjustment;
         r.adjust_for_ambient_noise(source, duration=5)
         print("Listerning...")
@@ -67,6 +64,7 @@ def takeCommand():
 
 if __name__ == "__main__":
     wishMe()
+    speak("Catherine at your service. How can i help you?")
 
     while True:
         # taking the command from Microphone making it lower case
@@ -86,4 +84,4 @@ if __name__ == "__main__":
             result = wikipedia.summary(query, sentences=2)
             speak(result)
         else:
-            speak("Sorry i don't understand")
+            speak("Sorry i didn't quite catch that, Could you please repeat?")
